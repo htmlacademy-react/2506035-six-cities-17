@@ -1,8 +1,3 @@
-const Settings = {
-  PlaceCount: 5,
-  AllPlace: 312
-} as const;
-
 enum RoutePath {
   Main = '/',
   Login = '/login',
@@ -17,4 +12,4 @@ enum LoginStatus {
   Unknown = 'UNKNOWN',
 }
 
-export { Settings, RoutePath, LoginStatus };
+export { RoutePath, LoginStatus };

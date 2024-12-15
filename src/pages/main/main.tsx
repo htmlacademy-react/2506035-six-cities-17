@@ -1,12 +1,18 @@
-import Card from '../../components/card/card.tsx';
+import { OfferType } from '../../types.ts';
 import Header from '../../components/header/header.tsx';
+import OfferList from '../../components/offer-list/offer-list.tsx';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-type MainProps = {
-  placeCount: number;
-  allPlace: number;
+type Props = {
+  offers: OfferType[];
 }
 
-function Main({ placeCount, allPlace }: MainProps): JSX.Element {
+function Main({ offers }: Props) {
+  const [activeOfferId, setActiveOfferId] = useState<string | null> (null);
+  const handleActiveOffer = (id: string | null) => {
+    setActiveOfferId(id);
+  };
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -16,19 +22,19 @@ function Main({ placeCount, allPlace }: MainProps): JSX.Element {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Paris</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Cologne</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Brussels</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
                 <a className="locations__item-link tabs__item tabs__item--active">
@@ -36,14 +42,14 @@ function Main({ placeCount, allPlace }: MainProps): JSX.Element {
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Hamburg</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link className="locations__item-link tabs__item" to="#">
                   <span>Dusseldorf</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </section>
@@ -52,7 +58,7 @@ function Main({ placeCount, allPlace }: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{allPlace} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -68,9 +74,7 @@ function Main({ placeCount, allPlace }: MainProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {Array.from({length: placeCount}, (_, index) => <Card key = {index} />)}
-              </div>
+              <OfferList offers={offers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
