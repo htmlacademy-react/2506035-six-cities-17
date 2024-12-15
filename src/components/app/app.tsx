@@ -20,7 +20,7 @@ function App({ offers }: Props) {
       <Route
         path={RoutePath.Favorites}
         element={
-          <PrivateRoute authStatus = { LoginStatus.Unknown }>
+          <PrivateRoute authStatus = { LoginStatus.Auth }>
             <Favorites offers={offers} />
           </PrivateRoute>
         }
