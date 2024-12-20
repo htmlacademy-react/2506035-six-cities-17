@@ -25,3 +25,5 @@ export type OfferType = {
 export type CardType = 'favorites' | 'cities';
 
 export type CityName = string;
+
+export type Point = Pick<OfferType, 'id' | 'location'>;
