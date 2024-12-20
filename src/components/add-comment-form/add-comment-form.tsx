@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { RATING_MAX, RATING_MIN, REVIEW_LENGTH_MAX, REVIEW_LENGTH_MIN } from '../../const';
 
 type FormDataType = {
   rating: number;
@@ -13,8 +14,8 @@ const INITIAL_STATE: FormDataType = {
 function AddCommentForm() {
   const [formData, setFormData] = useState<FormDataType>(INITIAL_STATE);
 
-  const isValidRating = formData.rating > 0 && formData.rating <= 5;
-  const isValitReview = formData.review.length >= 50 && formData.review.length <= 300;
+  const isValidRating = formData.rating >= RATING_MIN && formData.rating <= RATING_MAX;
+  const isValitReview = formData.review.length >= REVIEW_LENGTH_MIN && formData.review.length <= REVIEW_LENGTH_MAX;
   const isValid = isValidRating && isValitReview;
 
   const handleChangeRating = (e: ChangeEvent<HTMLInputElement>) => {
@@ -92,8 +93,7 @@ function AddCommentForm() {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleChangeReview}
         value={formData.review}
-      >
-      </textarea>
+      />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
