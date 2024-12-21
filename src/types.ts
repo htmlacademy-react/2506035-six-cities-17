@@ -22,8 +22,20 @@ export type OfferType = {
   previewImage: string;
 }
 
-export type CardType = 'favorites' | 'cities';
+export type CardType = 'favorites' | 'cities' | 'near-places';
 
 export type CityName = string;
 
 export type Point = Pick<OfferType, 'id' | 'location'>;
+
+export type ReviewType = {
+  id: string;
+  rating: number;
+  review: string;
+  userName: string;
+  userAvatarUrl: string;
+  date: {
+    value: string;
+    display: string;
+  };
+}

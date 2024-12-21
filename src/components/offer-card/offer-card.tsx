@@ -24,7 +24,7 @@ function OfferCard({ offer, cardType, onActiveOffer = () => {} }: Props) {
       }
       <div className={`${cardType}__image-wrapper place-card__image-wrapper`}>
         <Link to={linkTo}>
-          <img className="place-card__image" src={previewImage} width={cardType === 'cities' ? '260' : '150'} height={cardType === 'cities' ? '200' : '110'} alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={cardType === 'favorites' ? '150' : '260'} height={cardType === 'favorites' ? '110' : '200'} alt="Place image" />
         </Link>
       </div>
       <div className="place-card__info">

@@ -20,9 +20,10 @@ type Props = {
   city: LocationType;
   points: Point[];
   activeOfferId: string | null;
+  className?: string;
 }
 
-function CityMap({ activeOfferId, points, city }: Props) {
+function CityMap({ activeOfferId, points, city, className }: Props) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -51,7 +52,7 @@ function CityMap({ activeOfferId, points, city }: Props) {
   }, [activeOfferId, map, points]);
 
   return (
-    <section className="cities__map" ref={mapRef}></section>
+    <section className={className} ref={mapRef}></section>
   );
 }
 
