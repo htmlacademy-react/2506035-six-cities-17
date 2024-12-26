@@ -39,3 +39,8 @@ export type ReviewType = {
     display: string;
   };
 }
+
+export type CityLink = {
+  id: string;
+  displayName: string;
+};
