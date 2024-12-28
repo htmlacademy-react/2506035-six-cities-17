@@ -1,3 +1,5 @@
+import { SORT_BY } from './const';
+
 export type LocationType = {
   latitude: number;
   longitude: number;
@@ -43,4 +45,10 @@ export type ReviewType = {
 export type CityLink = {
   id: string;
   displayName: string;
+};
+
+export type SortByOptionType<T> = {
+  sortBy: SORT_BY;
+  label: string;
+  sortingAction: (array: T[]) => T[];
 };
