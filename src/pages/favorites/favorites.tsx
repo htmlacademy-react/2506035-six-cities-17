@@ -3,12 +3,11 @@ import Footer from '../../components/footer/footer';
 import { OfferType } from '../../types';
 import FavoriteGroup from '../../components/favorite-group/favorite-group';
 import { getOfferGroups } from '../../adaptors';
+import useAppSelector from '../../hooks/useAppSelector';
 
-type Props = {
-  offers: OfferType[];
-}
+function Favorites() {
+  const offers = useAppSelector((state) => state.offers);
 
-function Favorites({offers}: Props) {
   const offerGroups = getOfferGroups(offers);
 
   return (

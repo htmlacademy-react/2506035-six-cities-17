@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
 import { BrowserRouter } from 'react-router-dom';
-import { OFFERS_MOCK } from './mocks/offers.ts';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App offers={OFFERS_MOCK}/>
+      <Provider store={ store }>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );
