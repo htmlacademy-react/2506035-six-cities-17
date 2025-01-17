@@ -6,8 +6,25 @@ import Offer from '../../pages/offer/offer.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
 import NotFoundPage from '../../pages/404-not-found/404-not-found.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
+import { fetchOffersAction } from '../../api/actions.ts';
+import useAppSelector from '../../hooks/useAppSelector.ts';
+import { Spinner } from '../spinner/spinner.tsx';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch.ts';
 
 function App() {
+  const loading = useAppSelector((state) => state.loading);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+  }, [dispatch]);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <Routes>
       <Route path={RoutePath.Main} element={<Main />}/>
