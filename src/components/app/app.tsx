@@ -28,7 +28,7 @@ function App() {
   return (
     <Routes>
       <Route path={RoutePath.Main} element={<Main />}/>
-      <Route path={RoutePath.Login} element={<Login />}/>
+      <Route path={RoutePath.Login} element={<Login />}/> TODO: Обернуть логин в защищенный компонент(сделаю в след.ДЗ)
       <Route path={RoutePath.Favorites} element={
         <PrivateRoute authStatus = { LoginStatus.Auth }>
           <Favorites />
