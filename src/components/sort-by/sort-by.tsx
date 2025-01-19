@@ -5,6 +5,7 @@ import useAppSelector from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { setSortOffersBy } from '../../store/action';
 import { getSortByLabel } from '../../adaptors';
+import clsx from 'clsx';
 
 export function SortBy() {
   const [open, setOpen] = useState<boolean>(false);
@@ -27,7 +28,11 @@ export function SortBy() {
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0} onClick={handleToggleOpen}>
         {getSortByLabel(sortBy)}
-        <svg className={`places__sorting-arrow${open ? ' places__sorting-arrow--open' : ''}`} width="7" height="4">
+        <svg
+          className={clsx('places__sorting-arrow', { 'places__sorting-arrow--open': open })}
+          width="7"
+          height="4"
+        >
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
