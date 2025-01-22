@@ -1,5 +1,5 @@
 import OfferCard from '../offer-card/offer-card.tsx';
-import { OfferType } from '../../types.ts';
+import { OfferType } from '../../api/types.ts';
 
 type Props = {
   offers: OfferType[];

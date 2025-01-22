@@ -1,17 +1,41 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ThunkOptions } from './types';
-import { OfferType } from '../types';
+import { AuthData, OfferType, ThunkOptions, UserData } from './types';
 import { ApiRoutes } from './const';
-import { setLoading, setOffersList } from '../store/action';
+import { dropToken, saveToken } from './token';
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, ThunkOptions>(
+const createAppAsyncThunk = createAsyncThunk.withTypes<ThunkOptions>();
+
+export const fetchOffersAction = createAppAsyncThunk<OfferType[], undefined>(
   'offers/get',
-  async (_arg, {dispatch, extra: api}) => {
-    const { data, status } = await api.get<OfferType[]>(ApiRoutes.OFFERS);
+  async (_arg, {extra: api}) => {
+    const response = await api.get<OfferType[]>(ApiRoutes.OFFERS);
+    return response?.data;
+  }
+);
 
-    if (status === 200) {
-      dispatch(setOffersList(data));
-      dispatch(setLoading(false));
+export const checkAuthAction = createAppAsyncThunk<UserData, undefined>(
+  'user/check',
+  async (_arg, {extra: api}) => {
+    const response = await api.get<UserData>(ApiRoutes.LOGIN);
+    return response?.data;
+  }
+);
+
+export const loginAction = createAppAsyncThunk<UserData, AuthData>(
+  'user/login',
+  async ({ login, password}, {extra: api}) => {
+    const response = await api.post<UserData>(ApiRoutes.LOGIN, { email: login, password });
+    if (response) {
+      saveToken(response.data.token);
     }
+    return response?.data;
+  }
+);
+
+export const logoutAction = createAppAsyncThunk<void, undefined>(
+  'user/logout',
+  async (_arg, {extra: api}) => {
+    await api.delete(ApiRoutes.LOGOUT);
+    dropToken();
   }
 );

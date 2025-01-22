@@ -1,4 +1,4 @@
-import Header from '../../components/header/header.tsx';
+import { Header } from '../../components/header/header.tsx';
 import OfferList from '../../components/offer-list/offer-list.tsx';
 import { useState } from 'react';
 import CityMap from '../../components/city-map/city-map.tsx';
@@ -7,11 +7,12 @@ import { getCityName } from '../../adaptors.ts';
 import useAppSelector from '../../hooks/useAppSelector.ts';
 import { SortBy } from '../../components/sort-by/sort-by.tsx';
 import { useOffers } from '../../hooks/use-offers.ts';
+import { selectCity } from '../../store/selectors.ts';
 
 function Main() {
   const [activeOfferId, setActiveOfferId] = useState<string | null> (null);
 
-  const cityId = useAppSelector((state) => state.city);
+  const cityId = useAppSelector(selectCity);
 
   const { offers, city, points } = useOffers();
 

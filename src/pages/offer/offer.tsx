@@ -1,28 +1,35 @@
-import Header from '../../components/header/header';
+import { Header } from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/review-list';
 import { REVIEWS_LIST } from '../../mocks/reviews';
 import CityMap from '../../components/city-map/city-map';
-import { OFFERS_MOCK } from '../../mocks/offers';
 import { Point } from '../../types';
 import OtherPlacesList from '../../components/other-places-list/other-places-list';
-
-const OFFER_MOCK = OFFERS_MOCK[0];
-
-const CITY = OFFER_MOCK.city.location;
-
-const OFFERS_NEARBY = OFFERS_MOCK.slice(1, 4);
-
-const POINTS_NEARBY = OFFERS_NEARBY.map((offer) => ({
-  id: offer.id,
-  location: offer.location,
-}));
-
-const POINTS: Point[] = [{
-  id: OFFER_MOCK.id,
-  location: OFFER_MOCK.location,
-}, ...POINTS_NEARBY];
+import useAppSelector from '../../hooks/useAppSelector';
+import { selectOffers } from '../../store/selectors';
 
 function Offer() {
+  const offers = useAppSelector(selectOffers);
+
+  if (offers.length === 0) {
+    return null;
+  }
+
+  const OFFER_MOCK = offers[0];
+
+  const CITY = OFFER_MOCK.city.location;
+
+  const OFFERS_NEARBY = offers.slice(1, 4);
+
+  const POINTS_NEARBY = OFFERS_NEARBY.map((offer) => ({
+    id: offer.id,
+    location: offer.location,
+  }));
+
+  const POINTS: Point[] = [{
+    id: OFFER_MOCK.id,
+    location: OFFER_MOCK.location,
+  }, ...POINTS_NEARBY];
+
   return (
     <div className="page">
       <Header />
