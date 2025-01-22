@@ -30,7 +30,7 @@ export function SortBy() {
       <span className="places__sorting-type" tabIndex={0} onClick={handleToggleOpen}>
         {getSortByLabel(sortBy)}
         <svg
-          className={clsx('places__sorting-arrow', { 'places__sorting-arrow--open': open })}
+          className={clsx('places__sorting-arrow', open && 'places__sorting-arrow--open')}
           width="7"
           height="4"
         >
