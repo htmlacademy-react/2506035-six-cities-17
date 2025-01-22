@@ -5,4 +5,5 @@ export type AppStore = {
   city: string;
   offers: OfferType[];
   sortOffersBy: SORT_BY;
+  loading: boolean;
 }

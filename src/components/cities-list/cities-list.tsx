@@ -19,9 +19,12 @@ function CitiesList({ cityId }: Props) {
       {
         CITY_LINKS.map((link) => (
           <li className="locations__item" key={link.id}>
-            <div className={`locations__item-link tabs__item${link.id === cityId ? ' tabs__item--active' : ''}`} onClick={() => onLinkClick(link.id)}>
+            <button
+              className={`locations__item-link tabs__item${link.id === cityId ? ' tabs__item--active' : ''}`}
+              onClick={() => onLinkClick(link.id)}
+            >
               <span>{link.displayName}</span>
-            </div>
+            </button>
           </li>
         ))
       }

@@ -4,19 +4,11 @@ import { CITY_LINKS, SORT_BY, SORT_BY_OPTIONS } from './const.ts';
 type OfferGroups = Record<CityName, OfferType[]>;
 
 export function getOfferGroups(offers: OfferType[]): OfferGroups {
-  const result: OfferGroups = {};
-
-  offers.forEach((offer) => {
+  return offers.reduce((result: OfferGroups, offer: OfferType) => {
     const name: CityName = offer.city.name;
-
-    if (result[name]) {
-      result[name].push(offer);
-    } else {
-      result[name] = [offer];
-    }
-  });
-
-  return result;
+    (result[name] = result[name] || []).push(offer);
+    return result;
+  }, {});
 }
 
 export function getCityName(cityId?: string) {
