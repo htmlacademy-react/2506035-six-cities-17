@@ -1,23 +1,31 @@
-import { CityName, OfferType } from './types.ts';
-import { CITY_LINKS, SORT_BY, SORT_BY_OPTIONS } from './const.ts';
+import { CITY_LINKS, SORT_BY, SORT_BY_OPTIONS } from './const';
+import { CityName, OfferType } from './api/types';
 
 type OfferGroups = Record<CityName, OfferType[]>;
 
 export function getOfferGroups(offers: OfferType[]): OfferGroups {
-  return offers.reduce((result: OfferGroups, offer: OfferType) => {
+  const result: OfferGroups = {};
+
+  offers.forEach((offer) => {
     const name: CityName = offer.city.name;
-    (result[name] = result[name] || []).push(offer);
-    return result;
-  }, {});
+
+    if (result[name]) {
+      result[name].push(offer);
+    } else {
+      result[name] = [offer];
+    }
+  });
+
+  return result;
 }
 
 export function getCityName(cityId?: string) {
   return CITY_LINKS.find((link) => link.id === cityId)?.displayName || '';
 }
 
-export function filterOffersByCity(offers: OfferType[], cityId?: string): OfferType[] {
+export function filterOffersByCity(offers?: OfferType[], cityId?: string): OfferType[] {
   const cityName = getCityName(cityId);
-  return offers.filter((offer) => offer.city.name === cityName) || [];
+  return offers?.filter((offer) => offer.city.name === cityName) || [];
 }
 
 export function getSortByLabel(sortBy: SORT_BY) {
@@ -30,6 +38,7 @@ export function getSortedOffers(offers: OfferType[], sortBy: SORT_BY): OfferType
   if (!sortingAction) {
     return [];
   }
+
   return sortingAction(offers);
 }
 

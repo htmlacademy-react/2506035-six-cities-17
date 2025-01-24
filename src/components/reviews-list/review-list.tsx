@@ -1,6 +1,6 @@
 import AddCommentForm from '../add-comment-form/add-comment-form';
 import Review from '../review/review';
-import { ReviewType } from '../../types';
+import { ReviewType } from '../../api/types';
 
 type Props = {
   list: ReviewType[];

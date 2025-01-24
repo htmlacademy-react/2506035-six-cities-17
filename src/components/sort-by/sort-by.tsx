@@ -3,14 +3,15 @@ import './sort-by-style.css';
 import { SORT_BY, SORT_BY_OPTIONS } from '../../const';
 import useAppSelector from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { setSortOffersBy } from '../../store/action';
 import { getSortByLabel } from '../../adaptors';
 import clsx from 'clsx';
+import { selectSortOffersBy } from '../../store/selectors';
+import { setSortOffersBy } from '../../store/reducer';
 
 export function SortBy() {
   const [open, setOpen] = useState<boolean>(false);
 
-  const sortBy = useAppSelector((state) => state.sortOffersBy);
+  const sortBy = useAppSelector(selectSortOffersBy);
 
   const dispatch = useAppDispatch();
 
@@ -29,7 +30,7 @@ export function SortBy() {
       <span className="places__sorting-type" tabIndex={0} onClick={handleToggleOpen}>
         {getSortByLabel(sortBy)}
         <svg
-          className={clsx('places__sorting-arrow', { 'places__sorting-arrow--open': open })}
+          className={clsx('places__sorting-arrow', open && 'places__sorting-arrow--open')}
           width="7"
           height="4"
         >

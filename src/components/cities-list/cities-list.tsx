@@ -1,6 +1,6 @@
 import { CITY_LINKS } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/reducer';
 import './cities-list-style.css';
 
 type Props = {

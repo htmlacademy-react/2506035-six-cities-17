@@ -1,7 +1,9 @@
 import useAppSelector from './useAppSelector';
-import { filterOffersByCity, getSortedOffers } from '../adaptors';
-import { LocationType, OfferType, Point } from '../types';
+import { filterOffersByCity, getCityName, getSortedOffers } from '../adaptors';
 import { DEFAULT_CITY } from '../const';
+import { LocationType, OfferType } from '../api/types';
+import { Point } from '../types';
+import { selectCity, selectOffers, selectSortOffersBy } from '../store/selectors';
 
 type ReturnOffers = {
   offers: OfferType[];
@@ -10,9 +12,9 @@ type ReturnOffers = {
 }
 
 export function useOffers(): ReturnOffers {
-  const cityId = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
-  const sortBy = useAppSelector((state) => state.sortOffersBy);
+  const cityId = useAppSelector(selectCity);
+  const offers = useAppSelector(selectOffers);
+  const sortBy = useAppSelector(selectSortOffersBy);
 
   const filteredOffers = filterOffersByCity(offers, cityId);
 
@@ -21,7 +23,9 @@ export function useOffers(): ReturnOffers {
     location: offer.location,
   }));
 
-  const city: LocationType = filteredOffers.length > 0 ? filteredOffers[0].city.location : DEFAULT_CITY;
+  const cityName = getCityName(cityId);
+
+  const city: LocationType = filteredOffers.find((offer) => offer.city.name === cityName)?.city.location || DEFAULT_CITY;
 
   const sortedOffers = getSortedOffers(filteredOffers, sortBy);
 

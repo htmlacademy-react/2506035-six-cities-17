@@ -1,5 +1,6 @@
-import { CardType, OfferType } from '../../types';
+import { CardType } from '../../types';
 import { Link } from 'react-router-dom';
+import { OfferType } from '../../api/types';
 
 type Props = {
   offer: OfferType;

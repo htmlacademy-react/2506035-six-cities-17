@@ -1,12 +1,13 @@
-import Header from '../../components/header/header';
+import { Header } from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { OfferType } from '../../types';
 import FavoriteGroup from '../../components/favorite-group/favorite-group';
 import { getOfferGroups } from '../../adaptors';
 import useAppSelector from '../../hooks/useAppSelector';
+import { OfferType } from '../../api/types';
+import { selectOffers } from '../../store/selectors';
 
 function Favorites() {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(selectOffers);
 
   const offerGroups = getOfferGroups(offers);
 

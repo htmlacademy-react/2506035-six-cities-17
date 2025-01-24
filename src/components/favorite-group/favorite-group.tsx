@@ -1,6 +1,6 @@
-import { OfferType } from '../../types';
 import OfferCard from '../offer-card/offer-card';
 import { Link } from 'react-router-dom';
+import { OfferType } from '../../api/types';
 
 type Props = {
   offers: OfferType[];

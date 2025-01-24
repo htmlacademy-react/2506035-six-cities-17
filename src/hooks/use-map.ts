@@ -1,6 +1,7 @@
 import { useEffect, useState, MutableRefObject, useRef } from 'react';
 import {Map, TileLayer} from 'leaflet';
-import { LocationType } from '../types';
+import { LocationType } from '../api/types';
+import { MAP_ATTRIBUTION, MAP_URL_TEMPLATE } from '../const';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
@@ -19,13 +20,7 @@ function useMap(
         zoom: city.zoom
       });
 
-      const layer = new TileLayer(
-        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        }
-      );
+      const layer = new TileLayer(MAP_URL_TEMPLATE, { attribution: MAP_ATTRIBUTION});
 
       instance.addLayer(layer);
 
@@ -33,6 +28,20 @@ function useMap(
       isRenderedRef.current = true;
     }
   }, [city.latitude, city.longitude, city.zoom, mapRef]);
+
+  useEffect(() => {
+    if (map) {
+      const mapCenter = map.getCenter();
+      if (mapCenter.lat !== city.latitude || mapCenter.lng !== city.longitude) {
+        map.flyTo({
+          lat: city.latitude,
+          lng: city.longitude
+        }, city.zoom, {
+          duration: 1.5
+        });
+      }
+    }
+  }, [city, map]);
 
   return map;
 }
