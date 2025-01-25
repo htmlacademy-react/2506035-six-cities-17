@@ -1,8 +1,14 @@
-function NotFoundPage(): JSX.Element {
+import { Link } from 'react-router-dom';
+import { RoutePath} from '../../const.ts';
+import './404-not-found.css';
+
+function NotFoundPage() {
   return (
-    <div style={{ textAlign: 'center'}}>
-      <h1>404 - Page Not Found</h1>
-      <a href='/'>На главную</a>
+    <div className='root'>
+      <h1 className='heading'>Страница не найдена</h1>
+      <Link to={RoutePath.Main} className='link'>
+        На главную
+      </Link>
     </div>
   );
 }

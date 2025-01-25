@@ -4,9 +4,13 @@ export const selectCity = (state: RootState) => state.app.city;
 
 export const selectOffers = (state: RootState) => state.app.offers;
 
-export const selectSortOffersBy = (state: RootState) => state.app.sortOffersBy;
+export const selectOffer = (state: RootState) => state.app.offer;
 
-export const selectError = (state: RootState) => state.app.error;
+export const selectOffersNearby = (state: RootState) => state.app.offersNearby;
+
+export const selectOfferComments = (state: RootState) => state.app.offerComments;
+
+export const selectSortOffersBy = (state: RootState) => state.app.sortOffersBy;
 
 export const selectUserData = (state: RootState) => state.app.userData;
 

@@ -1,5 +1,5 @@
-import { CITY_LINKS, SORT_BY, SORT_BY_OPTIONS } from './const';
-import { CityName, OfferType } from './api/types';
+import { CITY_LINKS, SORT_BY, SORT_BY_OPTIONS, OFFER_CATEGORIES, REVIEW_MAX_COUNT } from './const';
+import { CityName, OfferType, CommentType } from './api/types';
 
 type OfferGroups = Record<CityName, OfferType[]>;
 
@@ -56,4 +56,14 @@ export function sortOffersByRating(offers: OfferType[]): OfferType[] {
 
 export function sortOffersByPopular(offers: OfferType[]): OfferType[] {
   return offers;
+}
+
+export function mapComments(comments: CommentType[]): CommentType[] {
+  return comments
+    .toSorted((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, REVIEW_MAX_COUNT);
+}
+
+export function getOfferCategory(type: string): string {
+  return OFFER_CATEGORIES[type];
 }

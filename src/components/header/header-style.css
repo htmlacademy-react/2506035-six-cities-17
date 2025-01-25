@@ -3,3 +3,7 @@
   background: none;
   cursor: pointer;
 }
+
+.user__avatar-wrapper {
+  overflow: hidden;
+}

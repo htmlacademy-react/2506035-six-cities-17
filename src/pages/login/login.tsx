@@ -5,12 +5,14 @@ import { loginAction } from '../../api/actions';
 import { FormEvent, useRef } from 'react';
 import useAppSelector from '../../hooks/useAppSelector';
 import { AuthStatus } from '../../api/const';
-import { selectAuthStatus } from '../../store/selectors';
+import { selectAuthStatus, selectLoading } from '../../store/selectors';
+import { Spinner } from '../../components/spinner/spinner';
 
 function Login() {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
+  const loading = useAppSelector(selectLoading);
   const authStatus = useAppSelector(selectAuthStatus);
 
   const dispatch = useAppDispatch();
@@ -28,6 +30,10 @@ function Login() {
 
   if (authStatus === AuthStatus.AUTH) {
     return <Navigate to={RoutePath.Main} />;
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (

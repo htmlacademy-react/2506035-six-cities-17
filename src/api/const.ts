@@ -6,6 +6,8 @@ export enum ApiRoutes {
   OFFERS = '/offers',
   LOGIN = '/login',
   LOGOUT = '/logout',
+  NEARBY = 'nearby',
+  COMMENTS = '/comments',
 }
 
 export enum AuthStatus {
@@ -13,3 +15,5 @@ export enum AuthStatus {
   NO_AUTH = 'noAuth',
   UNKNOWN = 'unknown',
 }
+
+export const ERROR_ADD_COMMENT_MESSAGE = 'Ошибка при отправке комментария';

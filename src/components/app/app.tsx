@@ -7,27 +7,16 @@ import Favorites from '../../pages/favorites/favorites.tsx';
 import NotFoundPage from '../../pages/404-not-found/404-not-found.tsx';
 import { PrivateRoute } from '../private-route/private-route.tsx';
 import { fetchOffersAction, checkAuthAction } from '../../api/actions.ts';
-import useAppSelector from '../../hooks/useAppSelector.ts';
-import { Spinner } from '../spinner/spinner.tsx';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch.ts';
-import { AuthStatus } from '../../api/const.ts';
-import { selectAuthStatus, selectLoading } from '../../store/selectors.ts';
 
 function App() {
-  const loading = useAppSelector(selectLoading);
-  const authStatus = useAppSelector(selectAuthStatus);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkAuthAction());
     dispatch(fetchOffersAction());
   }, [dispatch]);
-
-  if (loading || authStatus === AuthStatus.UNKNOWN) {
-    return <Spinner />;
-  }
 
   return (
     <Routes>
