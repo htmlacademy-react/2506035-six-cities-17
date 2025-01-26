@@ -1,21 +1,24 @@
-import { ReviewType } from '../../api/types';
+import { CommentType } from '../../api/types';
+import { convertDate } from '../../utils/convertDate';
 
 type Props = {
-  data: ReviewType;
+  data: CommentType;
 }
 
 function Review({ data }: Props) {
-  const {date, review, rating, userName, userAvatarUrl} = data;
+  const { user, date, rating, comment} = data;
+
+  const { time, displayDate} = convertDate(date);
 
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src={userAvatarUrl} width="54" height="54"
+          <img className="reviews__avatar user__avatar" src={user.avatarUrl} width="54" height="54"
             alt="Reviews avatar"
           />
         </div>
-        <span className="reviews__user-name">{userName}</span>
+        <span className="reviews__user-name">{user.name}</span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
@@ -25,9 +28,9 @@ function Review({ data }: Props) {
           </div>
         </div>
         <p className="reviews__text">
-          {review}
+          {comment}
         </p>
-        <time className="reviews__time" dateTime={date.value}>{date.display}</time>
+        <time className="reviews__time" dateTime={time}>{displayDate}</time>
       </div>
     </li>
   );

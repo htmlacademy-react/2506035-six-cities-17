@@ -38,8 +38,9 @@ function Header() {
               {
                 user ? (
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to="#">
-                      <div className="header__avatar-wrapper user__avatar-wrapper" style={{ backgroundImage: user.avatarUrl }}>
+                    <Link className="header__nav-link header__nav-link--profile" to={RoutePath.Favorites}>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                        <img src={user.avatarUrl} alt=''/>
                       </div>
                       <span className="header__user-name user__name">{user.email}</span>
                       <span className="header__favorite-count">3</span>

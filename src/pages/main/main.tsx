@@ -1,5 +1,5 @@
 import { Header } from '../../components/header/header.tsx';
-import OfferList from '../../components/offer-list/offer-list.tsx';
+import OffersList from '../../components/offer-list/offer-list.tsx';
 import { useState } from 'react';
 import CityMap from '../../components/city-map/city-map.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
@@ -7,18 +7,26 @@ import { getCityName } from '../../adaptors.ts';
 import useAppSelector from '../../hooks/useAppSelector.ts';
 import { SortBy } from '../../components/sort-by/sort-by.tsx';
 import { useOffers } from '../../hooks/use-offers.ts';
-import { selectCity } from '../../store/selectors.ts';
+import { selectCity, selectAuthStatus, selectLoading } from '../../store/selectors.ts';
+import { AuthStatus } from '../../api/const.ts';
+import { Spinner } from '../../components/spinner/spinner.tsx';
 
 function Main() {
-  const [activeOfferId, setActiveOfferId] = useState<string | null> (null);
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
+  const loading = useAppSelector(selectLoading);
+  const authStatus = useAppSelector(selectAuthStatus);
   const cityId = useAppSelector(selectCity);
 
-  const { offers, city, points } = useOffers();
+  const { offers, city, points} = useOffers();
 
   const handleActiveOffer = (id: string | null) => {
     setActiveOfferId(id);
   };
+
+  if (loading || authStatus === AuthStatus.UNKNOWN) {
+    return <Spinner />;
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -37,7 +45,7 @@ function Main() {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {getCityName(cityId)}</b>
               <SortBy />
-              <OfferList offers={offers} onActiveOffer={handleActiveOffer}/>
+              <OffersList offers={offers} onActiveOffer={handleActiveOffer}/>
             </section>
             <div className="cities__right-section">
               <CityMap activeOfferId={activeOfferId} points={points} city={city} className='cities__map'/>

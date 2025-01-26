@@ -4,16 +4,23 @@ import FavoriteGroup from '../../components/favorite-group/favorite-group';
 import { getOfferGroups } from '../../adaptors';
 import useAppSelector from '../../hooks/useAppSelector';
 import { OfferType } from '../../api/types';
-import { selectOffers } from '../../store/selectors';
+import { selectOffers, selectLoading } from '../../store/selectors';
+import { Spinner } from '../../components/spinner/spinner';
 
 function Favorites() {
   const offers = useAppSelector(selectOffers);
+  const loading = useAppSelector(selectLoading);
 
   const offerGroups = getOfferGroups(offers);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="page">
       <Header />
+
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
@@ -29,6 +36,7 @@ function Favorites() {
           </section>
         </div>
       </main>
+
       <Footer />
     </div>
   );

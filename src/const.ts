@@ -30,6 +30,7 @@ export const RATING_MIN = 1;
 export const RATING_MAX = 5;
 export const REVIEW_LENGTH_MIN = 50;
 export const REVIEW_LENGTH_MAX = 300;
+export const REVIEW_MAX_COUNT = 10;
 
 export const CITY_LINKS: CityLink[] = [
   {
@@ -91,3 +92,18 @@ export const SORT_BY_OPTIONS: SortByOptionType<OfferType>[] = [
 export const MAP_URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+export const OFFER_CATEGORIES: Record<string, string> = {
+  room: 'Room',
+  apartment: 'Apartment',
+  hotel: 'Hotel',
+  house: 'House',
+};
+
+export const RATING_TITLE: Record<string, string> = {
+  1: 'terribly',
+  2: 'badly',
+  3: 'not bad',
+  4: 'good',
+  5: 'perfect',
+};

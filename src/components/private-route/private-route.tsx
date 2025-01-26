@@ -12,7 +12,7 @@ type Props = {
 function PrivateRoute({children}: Props) {
   const authStatus = useAppSelector(selectAuthStatus);
 
-  return authStatus === AuthStatus.AUTH ? children : <Navigate to={RoutePath.Login} />;
+  return authStatus !== AuthStatus.AUTH ? <Navigate to={RoutePath.Login} /> : children;
 }
 
 export {PrivateRoute};
