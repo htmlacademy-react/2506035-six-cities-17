@@ -30,6 +30,8 @@ export type LocationType = {
   zoom: number;
 }
 
+export type CityName = string;
+
 export type CityType = {
   name: CityName;
   location: LocationType;
@@ -63,8 +65,6 @@ export type OfferDetailsType = {
   images: string[];
   maxAdults: number;
 } & OfferCommonType
-
-export type CityName = string;
 
 export type CommentPayloadType = {
   comment: string;

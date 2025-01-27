@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { RoutePath } from '../../const';
 import useAppSelector from '../../hooks/useAppSelector';
 import { AuthStatus } from '../../api/const';
-import { selectAuthStatus } from '../../store/selectors';
+import { selectAuthStatus } from '../../store/user-slice/selectors';
 import { ReactNode } from 'react';
 
 type Props = {

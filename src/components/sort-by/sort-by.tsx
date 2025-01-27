@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import './sort-by-style.css';
 import { SORT_BY, SORT_BY_OPTIONS } from '../../const';
 import useAppSelector from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { getSortByLabel } from '../../adaptors';
 import clsx from 'clsx';
-import { selectSortOffersBy } from '../../store/selectors';
-import { setSortOffersBy } from '../../store/reducer';
+import { selectSortOffersBy } from '../../store/app-slice/selectors';
+import { setSortOffersBy } from '../../store/app-slice/app-slice';
 
-export function SortBy() {
+function SortBy() {
   const [open, setOpen] = useState<boolean>(false);
 
   const sortBy = useAppSelector(selectSortOffersBy);
@@ -54,3 +54,6 @@ export function SortBy() {
     </form>
   );
 }
+
+const MemoizedSortBy = memo(SortBy);
+export { MemoizedSortBy as SortBy };

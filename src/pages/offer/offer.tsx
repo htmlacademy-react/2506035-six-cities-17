@@ -1,10 +1,10 @@
 import { Header } from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/review-list';
-import CityMap from '../../components/city-map/city-map';
+import { CityMap } from '../../components/city-map/city-map';
 import { Point } from '../../types';
 import OtherPlacesList from '../../components/other-places-list/other-places-list';
 import useAppSelector from '../../hooks/useAppSelector';
-import { selectAuthStatus, selectLoading, selectOffer, selectOfferComments, selectOffersNearby } from '../../store/selectors';
+import { selectIsLoadingOffer, selectIsLoadingOfferComments, selectIsLoadingOffersNearby, selectOffer, selectOfferComments, selectOffersNearby } from '../../store/offer-slice/selectors';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchOfferAction, fetchOfferCommentsAction, fetchOffersNearbyAction } from '../../api/actions';
@@ -13,6 +13,7 @@ import { Spinner } from '../../components/spinner/spinner.tsx';
 import { AuthStatus } from '../../api/const.ts';
 import { getOfferCategory, mapComments } from '../../adaptors.ts';
 import { RoutePath } from '../../const.ts';
+import { selectAuthStatus, selectIsLoadingUser } from '../../store/user-slice/selectors';
 
 function Offer() {
   const { id: offerId } = useParams();
@@ -28,21 +29,28 @@ function Offer() {
   }, [dispatch, offerId]);
 
   const offer = useAppSelector(selectOffer);
+  const isLoadingOffer = useAppSelector(selectIsLoadingOffer);
   const offersNearby = useAppSelector(selectOffersNearby);
+  const isLoadingOffersNearby = useAppSelector(selectIsLoadingOffersNearby);
   const offerComments = useAppSelector(selectOfferComments);
-  const loading = useAppSelector(selectLoading);
+  const isLoadingOfferComments = useAppSelector(selectIsLoadingOfferComments);
   const authStatus = useAppSelector(selectAuthStatus);
+  const isLoadingUser = useAppSelector(selectIsLoadingUser);
+
+  const loading = isLoadingOffer || isLoadingOffersNearby || isLoadingOfferComments || isLoadingUser;
+
+  const handleAddComment = () => {
+    if (offerId) {
+      dispatch(fetchOfferCommentsAction({ offerId }));
+    }
+  };
 
   if (loading || authStatus === AuthStatus.UNKNOWN) {
     return <Spinner />;
   }
 
-  if (!offer && !loading) {
-    return <Navigate to={RoutePath.NOT_FOUND} />;
-  }
-
   if (!offer) {
-    return null;
+    return <Navigate to={RoutePath.NOT_FOUND} />;
   }
 
   const POINTS_NEARBY = offersNearby.map((offerNearby) => ({
@@ -58,12 +66,6 @@ function Offer() {
   const commentsFiltered = mapComments(offerComments);
 
   const starsWidth = Math.round(offer.rating / 5 * 100);
-
-  const handleAddComment = () => {
-    if (offerId) {
-      dispatch(fetchOfferCommentsAction({ offerId }));
-    }
-  };
 
   return (
     <div className="page">
@@ -162,7 +164,9 @@ function Offer() {
                 </div>
               </div>
               {
-                offerComments && <ReviewsList list={commentsFiltered} onAddComment={handleAddComment}/>
+                commentsFiltered.length ? (
+                  <ReviewsList list={commentsFiltered} onAddComment={handleAddComment}/>
+                ) : null
               }
             </div>
           </div>

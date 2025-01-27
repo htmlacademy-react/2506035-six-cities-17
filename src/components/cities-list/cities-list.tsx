@@ -1,13 +1,14 @@
 import { CITY_LINKS } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { changeCity } from '../../store/reducer';
 import './cities-list-style.css';
+import useAppSelector from '../../hooks/useAppSelector';
+import { memo } from 'react';
+import { changeCity } from '../../store/app-slice/app-slice';
+import { selectCity } from '../../store/app-slice/selectors';
 
-type Props = {
-  cityId?: string;
-}
+function CitiesList() {
+  const cityId = useAppSelector(selectCity);
 
-function CitiesList({ cityId }: Props) {
   const dispatch = useAppDispatch();
 
   const onLinkClick = (id: string) => {
@@ -32,4 +33,5 @@ function CitiesList({ cityId }: Props) {
   );
 }
 
-export default CitiesList;
+const MemoizedCitiesList = memo(CitiesList);
+export { MemoizedCitiesList as CitiesList };

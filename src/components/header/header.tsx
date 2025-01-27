@@ -5,7 +5,8 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { logoutAction } from '../../api/actions';
 import useAppSelector from '../../hooks/useAppSelector';
 import { AuthStatus } from '../../api/const';
-import { selectAuthStatus, selectUserData } from '../../store/selectors';
+import { memo } from 'react';
+import { selectAuthStatus, selectUserData } from '../../store/user-slice/selectors';
 
 function Header() {
   const authStatus = useAppSelector(selectAuthStatus);
@@ -36,7 +37,7 @@ function Header() {
           <nav className="header__nav">
             <ul className="header__nav-list">
               {
-                user ? (
+                user && (
                   <li className="header__nav-item user">
                     <Link className="header__nav-link header__nav-link--profile" to={RoutePath.Favorites}>
                       <div className="header__avatar-wrapper user__avatar-wrapper">
@@ -46,7 +47,7 @@ function Header() {
                       <span className="header__favorite-count">3</span>
                     </Link>
                   </li>
-                ) : null
+                )
               }
               <li className="header__nav-item">
                 <button className="header__nav-link sign-out" onClick={handleSignOut}>
@@ -61,4 +62,5 @@ function Header() {
   );
 }
 
-export {Header};
+const MemoizedHeader = memo(Header);
+export { MemoizedHeader as Header };

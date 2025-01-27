@@ -7,6 +7,7 @@ import { ERROR_ADD_COMMENT_MESSAGE } from '../../api/const';
 import './add-comment-form-style.css';
 import { CommentPayloadType } from '../../api/types';
 import { Rating } from '../rating/rating';
+import { AxiosError } from 'axios';
 
 type FormDataType = {
   rating: number;
@@ -77,7 +78,7 @@ function AddCommentForm({ onAddComment }: Props) {
         setFormData(INITIAL_STATE);
         onAddComment();
       })
-      .catch((error: Error) => {
+      .catch((error: AxiosError) => {
         setSubmitError(error.message);
       })
       .finally(() => {
