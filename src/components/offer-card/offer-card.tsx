@@ -1,6 +1,7 @@
 import { CardType } from '../../types';
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../api/types';
+import { FavoriteButton } from '../favorite-button/favorite-button';
 
 type Props = {
   offer: OfferType;
@@ -9,13 +10,17 @@ type Props = {
 }
 
 function OfferCard({ offer, cardType, onActiveOffer = () => {} }: Props) {
-  const { rating, previewImage, price, isPremium, title, type} = offer;
+  const { rating, previewImage, price, isPremium, title, type, id, isFavorite } = offer;
 
   const placeRating = rating || 0;
-  const linkTo = `/offer/${offer.id}`;
+  const linkTo = `/offer/${id}`;
 
   return (
-    <article className={`${cardType}__card place-card`} onMouseEnter={() => onActiveOffer(offer.id)} onMouseLeave={() => onActiveOffer(null)}>
+    <article
+      className={`${cardType}__card place-card`}
+      onMouseEnter={() => onActiveOffer(id)}
+      onMouseLeave={() => onActiveOffer(null)}
+    >
       {
         isPremium && (
           <div className="place-card__mark">
@@ -34,12 +39,7 @@ function OfferCard({ offer, cardType, onActiveOffer = () => {} }: Props) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton offerId={id} isFavorite={isFavorite} buttonClass='place-card' width='18' height='19' />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

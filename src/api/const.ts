@@ -8,6 +8,7 @@ export enum ApiRoutes {
   LOGOUT = '/logout',
   NEARBY = 'nearby',
   COMMENTS = '/comments',
+  FAVORITE = '/favorite',
 }
 
 export enum AuthStatus {
@@ -17,3 +18,4 @@ export enum AuthStatus {
 }
 
 export const ERROR_ADD_COMMENT_MESSAGE = 'Ошибка при отправке комментария';
+export const ERROR_CHANGE_FAVORITE_MESSAGE = 'Ошибка при работе с избранным';
