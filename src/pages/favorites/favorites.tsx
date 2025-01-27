@@ -4,12 +4,12 @@ import FavoriteGroup from '../../components/favorite-group/favorite-group';
 import { getOfferGroups } from '../../adaptors';
 import useAppSelector from '../../hooks/useAppSelector';
 import { OfferType } from '../../api/types';
-import { selectOffers, selectLoading } from '../../store/selectors';
+import { selectIsLoadingOffers, selectOffers } from '../../store/offers-slice/selectors';
 import { Spinner } from '../../components/spinner/spinner';
 
 function Favorites() {
   const offers = useAppSelector(selectOffers);
-  const loading = useAppSelector(selectLoading);
+  const loading = useAppSelector(selectIsLoadingOffers);
 
   const offerGroups = getOfferGroups(offers);
 

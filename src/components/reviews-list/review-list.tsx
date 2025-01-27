@@ -2,7 +2,7 @@ import AddCommentForm from '../add-comment-form/add-comment-form';
 import Review from '../review/review';
 import { CommentType } from '../../api/types';
 import useAppSelector from '../../hooks/useAppSelector';
-import { selectAuthStatus } from '../../store/selectors';
+import { selectAuthStatus } from '../../store/user-slice/selectors';
 import { AuthStatus } from '../../api/const';
 
 type Props = {

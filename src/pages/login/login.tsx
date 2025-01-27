@@ -5,14 +5,14 @@ import { loginAction } from '../../api/actions';
 import { FormEvent, useRef } from 'react';
 import useAppSelector from '../../hooks/useAppSelector';
 import { AuthStatus } from '../../api/const';
-import { selectAuthStatus, selectLoading } from '../../store/selectors';
+import { selectAuthStatus, selectIsLoadingUser } from '../../store/user-slice/selectors';
 import { Spinner } from '../../components/spinner/spinner';
 
 function Login() {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const loading = useAppSelector(selectLoading);
+  const loading = useAppSelector(selectIsLoadingUser);
   const authStatus = useAppSelector(selectAuthStatus);
 
   const dispatch = useAppDispatch();

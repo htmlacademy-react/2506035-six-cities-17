@@ -18,17 +18,16 @@ function Rating({ disabled, value, onStarClick }: Props) {
               <input
                 className="form__rating-input visually-hidden"
                 value={starIndex}
-                checked={value >= starIndex}
+                checked={value === starIndex}
                 id={`${starIndex}-stars`}
                 disabled={disabled}
                 type="radio"
-                onChange={() => {}}
+                onChange={() => onStarClick(starIndex)}
               />
               <label
                 htmlFor={`${starIndex}-stars`}
                 className="reviews__rating-label form__rating-label"
                 title={RATING_TITLE[starIndex]}
-                onClick={() => onStarClick(starIndex)}
               >
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>
