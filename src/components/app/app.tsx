@@ -6,17 +6,28 @@ import Offer from '../../pages/offer/offer.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
 import NotFoundPage from '../../pages/404-not-found/404-not-found.tsx';
 import { PrivateRoute } from '../private-route/private-route.tsx';
-import { fetchOffersAction, checkAuthAction } from '../../api/actions.ts';
+import { fetchOffersAction, checkAuthAction, fetchFavoritesAction } from '../../api/actions.ts';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch.ts';
+import useAppSelector from '../../hooks/useAppSelector.ts';
+import { selectAuthStatus } from '../../store/user-slice/selectors.ts';
+import { AuthStatus } from '../../api/const.ts';
 
 function App() {
+  const authStatus = useAppSelector(selectAuthStatus);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkAuthAction());
     dispatch(fetchOffersAction());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (authStatus === AuthStatus.AUTH) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [authStatus, dispatch]);
 
   return (
     <Routes>
