@@ -1,7 +1,7 @@
 import { useEffect, useState, MutableRefObject, useRef } from 'react';
 import {Map, TileLayer} from 'leaflet';
 import { LocationType } from '../api/types';
-import { MAP_ATTRIBUTION, MAP_URL_TEMPLATE } from '../const';
+import { MapConfig } from '../const';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
@@ -20,7 +20,7 @@ function useMap(
         zoom: city.zoom
       });
 
-      const layer = new TileLayer(MAP_URL_TEMPLATE, { attribution: MAP_ATTRIBUTION});
+      const layer = new TileLayer(MapConfig.UrlTemplate, { attribution: MapConfig.Attribution });
 
       instance.addLayer(layer);
 

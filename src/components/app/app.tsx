@@ -1,15 +1,15 @@
-import Main from '../../pages/main/main.tsx';
-import { RoutePath } from '../../const.ts';
-import { Routes, Route } from 'react-router-dom';
-import { Login } from '../../pages/login/login.tsx';
-import Offer from '../../pages/offer/offer.tsx';
-import Favorites from '../../pages/favorites/favorites.tsx';
-import NotFoundPage from '../../pages/404-not-found/404-not-found.tsx';
-import { PrivateRoute } from '../private-route/private-route.tsx';
-import { fetchOffersAction, checkAuthAction, fetchFavoritesAction } from '../../api/actions.ts';
+import Main from '../../pages/main/main';
+import { Route, Routes} from 'react-router-dom';
+import { Login } from '../../pages/login/login';
+import NotFoundPage from '../../pages/404-not-found/404-not-found';
+import Favorites from '../../pages/favorites/favorites';
+import Offer from '../../pages/offer/offer';
+import { RoutePath } from '../../const';
+import { PrivateRoute } from '../private-route/private-route';
+import { checkAuthAction, fetchFavoritesAction, fetchOffersAction } from '../../api/actions';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch.ts';
-import useAppSelector from '../../hooks/useAppSelector.ts';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAuthStatus } from '../../store/user-slice/selectors.ts';
 import { AuthStatus } from '../../api/const.ts';
 
@@ -24,7 +24,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (authStatus === AuthStatus.AUTH) {
+    if (authStatus === AuthStatus.Auth) {
       dispatch(fetchFavoritesAction());
     }
   }, [authStatus, dispatch]);

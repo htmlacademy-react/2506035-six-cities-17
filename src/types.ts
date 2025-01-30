@@ -1,4 +1,4 @@
-import { SORT_BY } from './const.ts';
+import { SortBy } from './const.ts';
 import { OfferType } from './api/types.ts';
 
 export type CardType = 'favorites' | 'cities' | 'near-places';
@@ -11,7 +11,7 @@ export type CityLink = {
 };
 
 export type SortByOptionType<T> = {
-  sortBy: SORT_BY;
+  sortBy: SortBy;
   label: string;
   sortingAction: (array: T[]) => T[];
 };

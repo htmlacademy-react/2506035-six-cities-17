@@ -1,4 +1,4 @@
-import { sortOffersByPopular, sortOffersByPriceHighLow, sortOffersByPriceLowHigh, sortOffersByRating } from './adaptors';
+import { sortOffersByPopular, sortOffersByPriceHighLow, sortOffersByPriceLowHigh, sortOffersByRating } from './utils/adaptors';
 import { CityLink, SortByOptionType } from './types';
 import { LocationType, OfferType } from './api/types';
 
@@ -10,29 +10,29 @@ export enum RoutePath {
   NOT_FOUND = '*',
 }
 
-export enum LoginStatus {
-  Auth = 'AUTH',
-  NotAuth = 'NOT_AUTH',
-  Unknown = 'UNKNOWN',
+export enum UrlMarker {
+  Default= 'img/pin.svg',
+  Current = 'img/pin-active.svg',
 }
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';
-
-export const DEFAULT_CITY: LocationType = {
+export const defaultCity: LocationType = {
   latitude: 52.37454,
   longitude: 4.897976,
   zoom: 13,
 };
 
-export const RATING_MIN = 1;
-export const RATING_MAX = 5;
-export const REVIEW_LENGTH_MIN = 50;
-export const REVIEW_LENGTH_MAX = 300;
-export const REVIEW_MAX_COUNT = 10;
+export const ReviewValidation = {
+  RatingMin: 1,
+  RatingMax: 5,
+  LengthMin: 50,
+  LengthMax: 300,
+} as const;
 
-export const CITY_LINKS: CityLink[] = [
+export const REVIEWS_MAX_COUNT = 10;
+export const MAX_OFFER_IMAGES = 6;
+export const MAX_NEARBY_OFFERS = 3;
+
+export const cityLinks: CityLink[] = [
   {
     id: 'paris',
     displayName: 'Paris',
@@ -59,48 +59,49 @@ export const CITY_LINKS: CityLink[] = [
   },
 ];
 
-export enum SORT_BY {
-  POPULAR = 'popular',
-  PRICE_LOW_TO_HIGH = 'priceLowHigh',
-  PRICE_HIGH_TO_LOW = 'priceHighLow',
-  TOP = 'top',
+export enum SortBy {
+  Popular = 'Popular',
+  PriceLowHigh = 'PriceLowHigh',
+  PriceHighLow = 'PriceHighLow',
+  Top = 'Top',
 }
 
-export const SORT_BY_OPTIONS: SortByOptionType<OfferType>[] = [
+export const sortByOptions: SortByOptionType<OfferType>[] = [
   {
-    sortBy: SORT_BY.POPULAR,
+    sortBy: SortBy.Popular,
     label: 'Popular',
     sortingAction: sortOffersByPopular,
   },
   {
-    sortBy: SORT_BY.PRICE_HIGH_TO_LOW,
+    sortBy: SortBy.PriceHighLow,
     label: 'Price: high to low',
     sortingAction: sortOffersByPriceHighLow,
   },
   {
-    sortBy: SORT_BY.PRICE_LOW_TO_HIGH,
+    sortBy: SortBy.PriceLowHigh,
     label: 'Price: low to high',
     sortingAction: sortOffersByPriceLowHigh,
   },
   {
-    sortBy: SORT_BY.TOP,
+    sortBy: SortBy.Top,
     label: 'Top rated first',
     sortingAction: sortOffersByRating,
   },
 ];
 
-export const MAP_URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+export enum MapConfig {
+  UrlTemplate = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  Attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+}
 
-export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
-
-export const OFFER_CATEGORIES: Record<string, string> = {
+export const offerCategories: Record<string, string> = {
   room: 'Room',
   apartment: 'Apartment',
   hotel: 'Hotel',
   house: 'House',
 };
 
-export const RATING_TITLE: Record<string, string> = {
+export const ratingTitles: Record<string, string> = {
   1: 'terribly',
   2: 'badly',
   3: 'not bad',

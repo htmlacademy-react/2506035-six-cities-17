@@ -1,8 +1,8 @@
-import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import {API_TIMEOUT, API_URL} from './const.ts';
-import {getToken} from './token.ts';
-import {StatusCodes} from 'http-status-codes';
-import {toast} from 'react-toastify';
+import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { ApiConfigType } from './const';
+import { getToken } from './token';
+import { StatusCodes } from 'http-status-codes';
+import { toast } from 'react-toastify';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
@@ -14,8 +14,8 @@ const shouldDisplayError = (response: AxiosResponse) => Boolean(StatusCodeMappin
 
 export const createApi = (): AxiosInstance => {
   const api = axios.create({
-    baseURL: API_URL,
-    timeout: API_TIMEOUT,
+    baseURL: ApiConfigType.Url,
+    timeout: ApiConfigType.Timeout,
   });
 
   api.interceptors.request.use(

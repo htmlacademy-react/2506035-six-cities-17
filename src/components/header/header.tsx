@@ -3,7 +3,7 @@ import { RoutePath } from '../../const';
 import './header-style.css';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { logoutAction } from '../../api/actions';
-import useAppSelector from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { AuthStatus } from '../../api/const';
 import { memo } from 'react';
 import { selectAuthStatus, selectUserData } from '../../store/user-slice/selectors';
@@ -14,7 +14,7 @@ function Header() {
   const authStatus = useAppSelector(selectAuthStatus);
   const user = useAppSelector(selectUserData);
   const favoriteOffers = useAppSelector(selectFavoriteOffers);
-  const isAuth = authStatus === AuthStatus.AUTH;
+  const isAuth = authStatus === AuthStatus.Auth;
 
   const dispatch = useAppDispatch();
 

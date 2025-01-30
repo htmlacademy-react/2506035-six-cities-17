@@ -1,20 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { RATING_MAX, RATING_MIN, REVIEW_LENGTH_MAX, REVIEW_LENGTH_MIN } from '../../const';
+import { ReviewValidation } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { addOfferCommentAction } from '../../api/actions';
 import { useParams } from 'react-router-dom';
-import { ERROR_ADD_COMMENT_MESSAGE } from '../../api/const';
+import { ApiError } from '../../api/const';
 import './add-comment-form-style.css';
 import { CommentPayloadType } from '../../api/types';
-import { Rating } from '../rating/rating';
+import { Rating } from '../../shared/rating/rating';
 import { AxiosError } from 'axios';
+import { FormDataType } from './types';
+import { isReviewFormValid } from './validators';
 
-type FormDataType = {
-  rating: number;
-  review: string;
-}
-
-const INITIAL_STATE: FormDataType = {
+const initialState: FormDataType = {
   rating: 0,
   review: '',
 };
@@ -26,7 +23,7 @@ type Props = {
 function AddCommentForm({ onAddComment }: Props) {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [formData, setFormData] = useState<FormDataType>(INITIAL_STATE);
+  const [formData, setFormData] = useState<FormDataType>(initialState);
 
   const dispatch = useAppDispatch();
 
@@ -36,9 +33,7 @@ function AddCommentForm({ onAddComment }: Props) {
     return null;
   }
 
-  const isValidRating = formData.rating >= RATING_MIN && formData.rating <= RATING_MAX;
-  const isValidReview = formData.review.length >= REVIEW_LENGTH_MIN && formData.review.length <= REVIEW_LENGTH_MAX;
-  const isValid = isValidRating && isValidReview;
+  const isValid = isReviewFormValid(formData);
 
   const handleChangeRating = (value: number) => {
     setSubmitError(null);
@@ -48,11 +43,11 @@ function AddCommentForm({ onAddComment }: Props) {
     }));
   };
 
-  const handleChangeReview = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeReview = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setSubmitError(null);
     setFormData((prev) => ({
       ...prev,
-      review: e.target.value,
+      review: event.target.value,
     }));
   };
 
@@ -60,12 +55,12 @@ function AddCommentForm({ onAddComment }: Props) {
     const response = await dispatch(addOfferCommentAction({offerId, payload}));
 
     if (response.meta.requestStatus === 'rejected') {
-      throw new Error(ERROR_ADD_COMMENT_MESSAGE);
+      throw new Error(ApiError.AddCommentMessage);
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     setSubmitting(true);
     setSubmitError(null);
@@ -75,7 +70,7 @@ function AddCommentForm({ onAddComment }: Props) {
       rating: formData.rating,
     })
       .then(() => {
-        setFormData(INITIAL_STATE);
+        setFormData(initialState);
         onAddComment();
       })
       .catch((error: AxiosError) => {
@@ -107,7 +102,7 @@ function AddCommentForm({ onAddComment }: Props) {
 
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
-          describe your stay with at least <b className="reviews__text-amount">{REVIEW_LENGTH_MIN} characters</b>.
+          describe your stay with at least <b className="reviews__text-amount">{ReviewValidation.LengthMin} characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled={!isValid || submitting}>Submit</button>
       </div>
