@@ -5,11 +5,8 @@
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: relative;
   animation: pulse 1s linear infinite;
-  transform: translate(-50%, -50%);
 }
 
 .loader:after {
@@ -33,6 +30,6 @@
 }
 
 @keyframes pulse {
-  0% , 60% , 100% { transform:  scale(1) }
+  0% , 60% , 100%{ transform:  scale(1) }
   80% { transform:  scale(1.2)}
 }

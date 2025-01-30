@@ -1,18 +1,18 @@
-import {useEffect, useRef, memo} from 'react';
-import useMap from '../../hooks/use-map.ts';
-import { Point } from '../../types.ts';
-import leaflet, {layerGroup, Marker} from 'leaflet';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
-import { LocationType } from '../../api/types.ts';
+import { memo, useEffect, useRef } from 'react';
+import useMap from '../../hooks/use-map';
+import { Point } from '../../types';
+import leaflet, { layerGroup, Marker } from 'leaflet';
+import { UrlMarker } from '../../const';
+import { LocationType } from '../../api/types';
 
 const defaultCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: UrlMarker.Default,
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 });
 
 const currentCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: UrlMarker.Current,
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 });

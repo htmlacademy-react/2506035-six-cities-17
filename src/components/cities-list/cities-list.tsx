@@ -1,7 +1,7 @@
-import { CITY_LINKS } from '../../const';
+import { cityLinks } from '../../const.ts';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import './cities-list-style.css';
-import useAppSelector from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { memo } from 'react';
 import { changeCity } from '../../store/app-slice/app-slice';
 import { selectCity } from '../../store/app-slice/selectors';
@@ -11,18 +11,18 @@ function CitiesList() {
 
   const dispatch = useAppDispatch();
 
-  const onLinkClick = (id: string) => {
+  const handleChangeCity = (id: string) => {
     dispatch(changeCity(id));
   };
 
   return (
     <ul className="locations__list tabs__list">
       {
-        CITY_LINKS.map((link) => (
+        cityLinks.map((link) => (
           <li className="locations__item" key={link.id}>
             <button
               className={`locations__item-link tabs__item${link.id === cityId ? ' tabs__item--active' : ''}`}
-              onClick={() => onLinkClick(link.id)}
+              onClick={() => handleChangeCity(link.id)}
             >
               <span>{link.displayName}</span>
             </button>

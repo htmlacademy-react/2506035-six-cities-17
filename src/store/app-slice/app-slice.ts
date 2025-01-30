@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppSliceType } from './types';
-import { SORT_BY } from '../../const';
+import { SortBy } from '../../const';
 
 const initialState: AppSliceType = {
   city: 'paris',
-  sortOffersBy: SORT_BY.POPULAR,
+  sortOffersBy: SortBy.Popular,
 };
 
 const appSlice = createSlice({
@@ -14,7 +14,7 @@ const appSlice = createSlice({
     changeCity(state, { payload }: PayloadAction<string>) {
       state.city = payload;
     },
-    setSortOffersBy(state, { payload }: PayloadAction<SORT_BY>) {
+    setSortOffersBy(state, { payload }: PayloadAction<SortBy>) {
       state.sortOffersBy = payload;
     },
   },
@@ -22,3 +22,4 @@ const appSlice = createSlice({
 
 export const { changeCity, setSortOffersBy } = appSlice.actions;
 export { appSlice };
+

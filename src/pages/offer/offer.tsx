@@ -1,22 +1,24 @@
 import { Header } from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/review-list';
-import { CityMap } from '../../components/city-map/city-map';
+import { CityMap } from '../../shared/city-map/city-map';
 import { Point } from '../../types';
 import OtherPlacesList from '../../components/other-places-list/other-places-list';
-import useAppSelector from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectIsLoadingOffer, selectIsLoadingOfferComments, selectIsLoadingOffersNearby, selectOffer, selectOfferComments, selectOffersNearby } from '../../store/offer-slice/selectors';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchOfferAction, fetchOfferCommentsAction, fetchOffersNearbyAction } from '../../api/actions';
 import { Navigate, useParams } from 'react-router-dom';
-import { Spinner } from '../../components/spinner/spinner.tsx';
-import { AuthStatus } from '../../api/const.ts';
-import { getOfferCategory, mapComments, isOfferFavorite } from '../../adaptors.ts';
-import { RoutePath } from '../../const.ts';
+import { Spinner } from '../../shared/spinner/spinner';
+import { AuthStatus } from '../../api/const';
+import { mapComments, mapOffersNearbyToPoints, mapOffersNearbyWithFavorites } from '../../utils/adaptors';
+import { RoutePath, MAX_OFFER_IMAGES } from '../../const';
 import { selectAuthStatus, selectIsLoadingUser } from '../../store/user-slice/selectors';
 import { selectFavoriteOffers, selectIsLoadingFavorites } from '../../store/favorites-slice/selectors';
 import { OfferDetailsType, OfferType } from '../../api/types';
 import { FavoriteButton } from '../../components/favorite-button/favorite-button';
+import { isOfferFavorite } from '../../utils/is-offer-favorite';
+import { getOfferCategory } from '../../utils/get-offer-category';
 
 function Offer() {
   const { id: offerId } = useParams();
@@ -42,15 +44,17 @@ function Offer() {
   const isLoadingFavorites = useAppSelector(selectIsLoadingFavorites);
   const favoriteOffers = useAppSelector(selectFavoriteOffers);
 
-  const loading = isLoadingOffer || isLoadingOffersNearby || isLoadingOfferComments || isLoadingUser || isLoadingFavorites;
-
   const handleAddComment = () => {
     if (offerId) {
       dispatch(fetchOfferCommentsAction({ offerId }));
     }
   };
 
-  if (loading || authStatus === AuthStatus.UNKNOWN) {
+  const commentsFiltered = useMemo(() => mapComments(offerComments), [offerComments]);
+
+  const loading = isLoadingOffer || isLoadingOffersNearby || isLoadingOfferComments || isLoadingUser || isLoadingFavorites;
+
+  if (loading || authStatus === AuthStatus.Unknown) {
     return <Spinner />;
   }
 
@@ -63,24 +67,16 @@ function Offer() {
     isFavorite: isOfferFavorite(favoriteOffers, offer.id),
   };
 
-  const offersNearbyWithFavorites: OfferType[] = offersNearby.map((nearby) => ({
-    ...nearby,
-    isFavorite: isOfferFavorite(favoriteOffers, nearby.id),
-  }));
+  const offersNearbyWithFavorites: OfferType[] = mapOffersNearbyWithFavorites(offersNearby, favoriteOffers);
 
-  const POINTS_NEARBY = offersNearbyWithFavorites.map((nearby) => ({
-    id: nearby.id,
-    location: nearby.location,
-  }));
+  const pointsNearby = mapOffersNearbyToPoints(offersNearby);
 
-  const POINTS: Point[] = [{
-    id: offerWithFavorite.id,
-    location: offerWithFavorite.location,
-  }, ...POINTS_NEARBY];
+  const points: Point[] = [{
+    id: offer.id,
+    location: offer.location,
+  }, ...pointsNearby];
 
-  const commentsFiltered = mapComments(offerComments);
-
-  const starsWidth = Math.round(offerWithFavorite.rating / 5 * 100);
+  const starsWidth = Math.round(offerWithFavorite.rating) * 20;
 
   const {
     id,
@@ -108,7 +104,7 @@ function Offer() {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {
-                images.map((image) => (
+                images.slice(0, MAX_OFFER_IMAGES).map((image) => (
                   <div className="offer__image-wrapper" key={image}>
                     <img className="offer__image" src={image} alt="Photo studio"/>
                   </div>
@@ -149,10 +145,10 @@ function Offer() {
                   {getOfferCategory(type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {bedrooms} Bedrooms
+                  {bedrooms} Bedroom{bedrooms > 1 && 's'}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {maxAdults} adults
+                  Max {maxAdults} adult{maxAdults > 1 && 's'}
                 </li>
               </ul>
               <div className="offer__price">
@@ -196,14 +192,14 @@ function Offer() {
                   </p>
                 </div>
               </div>
-              {
-                commentsFiltered.length ? (
-                  <ReviewsList list={commentsFiltered} onAddComment={handleAddComment}/>
-                ) : null
-              }
+              <ReviewsList
+                list={commentsFiltered}
+                onAddComment={handleAddComment}
+                totalReviewsCount={offerComments.length}
+              />
             </div>
           </div>
-          <CityMap city={city.location} points={POINTS} activeOfferId={id} className='offer__map map'/>
+          <CityMap city={city.location} points={points} activeOfferId={id} className='offer__map map'/>
         </section>
         <div className="container">
           {

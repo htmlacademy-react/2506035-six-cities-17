@@ -1,14 +1,15 @@
 import { Header } from '../../components/header/header';
-import Footer from '../../components/footer/footer';
+import { Footer } from '../../shared/footer/footer';
 import FavoriteGroup from '../../components/favorite-group/favorite-group';
-import { getOfferGroups } from '../../adaptors';
-import useAppSelector from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { OfferType } from '../../api/types';
-import { Spinner } from '../../components/spinner/spinner';
+import { Spinner } from '../../shared/spinner/spinner';
 import { selectFavoriteOffers, selectIsLoadingFavorites } from '../../store/favorites-slice/selectors';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useEffect } from 'react';
 import { fetchFavoritesAction } from '../../api/actions';
+import { FavoritesEmpty } from '../../shared/favorites-empty/favorites-empty';
+import { groupOffers } from '../../utils/adaptors';
 
 function Favorites() {
   const favoriteOffers = useAppSelector(selectFavoriteOffers);
@@ -24,7 +25,7 @@ function Favorites() {
     return <Spinner />;
   }
 
-  const offerGroups = getOfferGroups(favoriteOffers);
+  const offerGroups = groupOffers(favoriteOffers);
   const offerKeys = Object.keys(offerGroups);
 
   return (
@@ -47,14 +48,7 @@ function Favorites() {
                 </ul>
               </section>
             ) : (
-              <section className="favorites favorites--empty">
-                <h1 className="visually-hidden">Favorites (empty)</h1>
-                <div className="favorites__status-wrapper">
-                  <b className="favorites__status">Nothing yet saved.</b>
-                  <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.
-                  </p>
-                </div>
-              </section>
+              <FavoritesEmpty />
             )
           }
         </div>

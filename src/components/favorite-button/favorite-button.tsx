@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { changeFavoriteAction } from '../../api/actions';
-import useAppSelector from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectAuthStatus } from '../../store/user-slice/selectors';
 import { AuthStatus } from '../../api/const';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ function FavoriteButton({ offerId, isFavorite, buttonClass, width, height }: Pro
   const favoriteClass = isFavorite ? `${buttonClass}__bookmark-button--active` : '';
 
   const handleAddFavorite = () => {
-    if (authStatus === AuthStatus.AUTH) {
+    if (authStatus === AuthStatus.Auth) {
       dispatch(changeFavoriteAction({
         offerId,
         status: isFavorite ? 0 : 1,
@@ -46,5 +46,6 @@ function FavoriteButton({ offerId, isFavorite, buttonClass, width, height }: Pro
     </button>
   );
 }
+
 
 export { FavoriteButton };

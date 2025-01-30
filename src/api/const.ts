@@ -1,21 +1,25 @@
-export const API_URL = 'https://16.design.htmlacademy.pro/six-cities';
-export const API_TIMEOUT = 5000;
-export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+export const ApiConfigType = {
+  Url: 'https://16.design.htmlacademy.pro/six-cities',
+  Timeout: 5000,
+  TokenKeyName: 'six-cities-token',
+} as const;
 
-export enum ApiRoutes {
-  OFFERS = '/offers',
-  LOGIN = '/login',
-  LOGOUT = '/logout',
-  NEARBY = 'nearby',
-  COMMENTS = '/comments',
-  FAVORITE = '/favorite',
+export enum ApiRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Nearby = 'nearby',
+  Comments = '/comments',
+  Favorite = '/favorite',
 }
 
 export enum AuthStatus {
-  AUTH = 'auth',
-  NO_AUTH = 'noAuth',
-  UNKNOWN = 'unknown',
+  Auth = 'Auth',
+  NoAuth = 'NoAuth',
+  Unknown = 'Unknown',
 }
 
-export const ERROR_ADD_COMMENT_MESSAGE = 'Ошибка при отправке комментария';
-export const ERROR_CHANGE_FAVORITE_MESSAGE = 'Ошибка при работе с избранным';
+export enum ApiError {
+  AddCommentMessage = 'Ошибка при отправке комментария',
+  ChangeFavoriteMessage = 'Ошибка при работе с избранным',
+}

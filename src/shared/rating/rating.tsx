@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { RATING_TITLE } from '../../const';
+import { ratingTitles } from '../../const.ts';
 
 type Props = {
   disabled?: boolean;
@@ -27,7 +27,7 @@ function Rating({ disabled, value, onStarClick }: Props) {
               <label
                 htmlFor={`${starIndex}-stars`}
                 className="reviews__rating-label form__rating-label"
-                title={RATING_TITLE[starIndex]}
+                title={ratingTitles[starIndex]}
               >
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>

@@ -1,12 +1,14 @@
 import { Link, Navigate } from 'react-router-dom';
-import { RoutePath } from '../../const';
+import { RoutePath, cityLinks } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { loginAction } from '../../api/actions';
 import { FormEvent, useRef } from 'react';
-import useAppSelector from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { AuthStatus } from '../../api/const';
 import { selectAuthStatus, selectIsLoadingUser } from '../../store/user-slice/selectors';
-import { Spinner } from '../../components/spinner/spinner';
+import { Spinner } from '../../shared/spinner/spinner';
+import { getRandomCityLink } from '../../utils/get-random-city-link';
+import { changeCity } from '../../store/app-slice/app-slice';
 
 function Login() {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -17,8 +19,8 @@ function Login() {
 
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
       dispatch(loginAction({
@@ -28,7 +30,11 @@ function Login() {
     }
   };
 
-  if (authStatus === AuthStatus.AUTH) {
+  const city = getRandomCityLink(cityLinks);
+  const handleCityClick = () => {
+    dispatch(changeCity(city.id));
+  };
+  if (authStatus === AuthStatus.Auth) {
     return <Navigate to={RoutePath.Main} />;
   }
 
@@ -61,15 +67,27 @@ function Login() {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef}/>
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  ref={passwordRef}
+                  pattern="^(?=.*[a-zA-Z])(?=.*\d).{2,}$"
+                />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="#">
-                <span>Amsterdam</span>
+              <Link
+                className="locations__item-link"
+                to={RoutePath.Main}
+                onClick={handleCityClick}
+              >
+                <span>{city.displayName}</span>
               </Link>
             </div>
           </section>
